@@ -8,8 +8,8 @@ setup(
     description=('Wrapper around Pika\'s Twisted connection to make it simpler to work with.'),
     packages=find_packages(),
     install_requires=[
-        'Twisted==14.0.0',
-        'pika==0.9.14',
+        'Twisted',
+        'pika',
         'six',
     ],
     url='http://github.com/SweetIQ/tx-easy-pika',
