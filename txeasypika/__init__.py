@@ -95,12 +95,18 @@ class ChannelProxy(object):
             - `mandatory` - AMQP Mandatory flag.
             - `immediate` - AMQP Immediate flag.
         '''
-        properties = BasicProperties(properties or {})
 
+        if properties:
+            properties = BasicProperties(**properties)
+        else:
+            properties = BasicProperties()
+
+        # Convert to JSON string if it's not a string...
         if not isinstance(message, six.string_types):
-            # Convert to JSON string if it's not a string
             message = json.dumps(to_serializable(message))
-            properties.content_type = "application/json"
+
+        # ...then make sure to mark the content-type as JSON.
+        properties.content_type = "application/json"
 
         if not isinstance(routing_key, six.string_types):
             raise InvalidRoutingKeyException("'%s' is not a valid routing key!" %
