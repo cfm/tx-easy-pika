@@ -234,7 +234,11 @@ class QueueConnection(object):
                 channel.basic_ack(method.delivery_tag)
                 return
 
-            callback(ChannelProxy(channel), method, header, message)
+            try:
+                callback(ChannelProxy(channel), method, header, message)
+            except Exception as e:
+                reactor.stop()
+                raise e
 
         logger.debug("Binding %s to %s/%s" % (queue_name, exchange, routing_key))
 
