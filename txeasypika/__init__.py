@@ -123,13 +123,14 @@ class ChannelProxy(object):
 
 class QueueConnection(object):
 
-    def __init__(self, host="localhost", port=5672, username="guest",
-                 password="guest", heartbeat=600, prefetch_count=1,
-                 log_level=logging.WARNING):
+    def __init__(self, host="localhost", port=5672, virtual_host='/',
+                 username="guest", password="guest", heartbeat=600,
+                 prefetch_count=1, log_level=logging.WARNING):
         ''' Connect to the queues.
         Arguments:
             - `host` - The server that RabbitMQ is on.
             - `port` - The port that RabbitMQ is listening on.
+            - `virtual_host` - The RabbitMQ virtual host to connect to.
             - `username` - Username for RabbitMQ.
             - `password` - Password for RabbitMQ.
             - `heartbeat` - Heartbeat frequency in seconds for RabbitMQ.
@@ -153,6 +154,7 @@ class QueueConnection(object):
         connection_params = pika.ConnectionParameters(
             host=host,
             port=port,
+            virtual_host=virtual_host,
             credentials=pika.PlainCredentials(username, password),
             heartbeat_interval=heartbeat
         )
